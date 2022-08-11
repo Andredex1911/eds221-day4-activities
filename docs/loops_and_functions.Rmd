@@ -1,0 +1,83 @@
+---
+title: "Loops and Function"
+author: "Andre Dextre"
+date: "2022-08-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(janitor)
+library(skimr)
+```
+
+# Part 1: For Loops Revisited
+## Task 1
+
+```{r}
+weekdays <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+transects <- c("Transect A", "Transect B", "Transect C")
+
+week_trans <- matrix(nrow = length(weekdays), ncol = length(transects))
+
+for (i in seq_along(transects)) {
+  for (j in seq_along(weekdays)) {
+    w_t <- paste(weekdays[j], "-", transects[i])
+  week_trans[j, i] <- w_t
+  }
+}
+```
+
+# Part 2: Functions Introduced
+## Task 2
+
+Write a function called force that calculates a force (in Newtons), given inputs of mass (in kg) and acceleration (in ms2 (recall: F=ma), and returns a statement “The resulting force is ___ Newtons.”
+
+```{r}
+force <- function(mass, acceleration) {
+    f <- mass * acceleration
+    print(paste("The resulting force is", f, "Newtons" ))
+}
+
+force(mass = 10, acceleration = 34)
+```
+
+## Task 3
+
+The length:weight relationship for fish is: `W=aL^b`, where where L is total fish length (centimeters), W is the expected fish weight (grams), and a and b are species-dependent parameter values (shown below for several fish from Peyton et al. 2016).
+
+```{r}
+sci_name <- c("Chanos chanos", "Sphyraena barracuda", "Caranx ignobilis")
+common_name <- c("Milkfish", "Great Barracuda", "Giant trevally")
+a_est <- c(0.0905, 0.0181, 0.0353)
+b_est <- c(2.52, 3.27, 3.05)
+
+fish_parms <- data.frame(sci_name, common_name, a_est, b_est)
+
+fish_weight <- function(fish_name, tot_length) {
+  fish_info <- filter(.data = fish_parms, common_name == fish_name)
+  a = fish_info$a_est
+  b = fish_info$b_est
+  weight <- a * (tot_length^b)
+  print(paste("The weight of the fish is", weight))
+}
+
+fish_weight("Milkfish", 23)
+```
+
+## Task 4
+
+Wave power (more accurately wave energy flux) in deep water is approximated by:
+
+Pdeep=0.5H2T
+where P is power in kWm (potential power per wave meter), H is wave height in meters (more specifically, the significant wave height), and T is the wave period in seconds. Learn more here.
+
+Write a function called wave_power that calculates potential ocean wave power given inputs of wave height and period.
+
+Use your wave_power function to approximate wave power for a period of 8 seconds, over a range of wave heights from 0 to 3 meters by increments of 0.2 meters.
+
+```{r}
+
+```
+
